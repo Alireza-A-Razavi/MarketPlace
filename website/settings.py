@@ -28,6 +28,9 @@ INSTALLED_APPS = [
 
     'users.apps.UsersConfig',
     'categories.apps.CategoriesConfig',
+    'blog.apps.BlogConfig',
+    'merchandise.apps.MerchandiseConfig',
+    'products.apps.ProductsConfig',
 
     'tinymce',
     'hitcount',
