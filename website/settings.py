@@ -15,6 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'merchandise.apps.MerchandiseConfig',
     'products.apps.ProductsConfig',
+    'corsheaders',
 
     'tinymce',
     'hitcount',
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -147,25 +150,25 @@ SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-CSRF_COOKIE_NAME = "csrftoken"
+# CSRF_COOKIE_NAME = "csrftoken"
 
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
-}
+# REST_AUTH_REGISTER_SERIALIZERS = {
+#     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
+# }
 
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
-    'TOKEN_SERIALIZER': 'users.serializers.TokenSerializer'
-}
+# REST_AUTH_SERIALIZERS = {
+#     'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
+#     'TOKEN_SERIALIZER': 'users.serializers.TokenSerializer'
+# }
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.AllowAny',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.TokenAuthentication',
+#     ),
+# }
 
 
 
