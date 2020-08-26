@@ -40,7 +40,7 @@ class CategoryVariationDetailSerializer(serializers.ModelSerializer):
         )
 
     def get_variation(self, obj):
-        return VariationDetailSerializer()
+        return VariationDetailSerializer(obj.variation).data
 
 class CategoryVariationSerializer(serializers.ModelSerializer):
 
@@ -81,7 +81,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         model = Category
         fields = (
             'id',
-            'name',
+            'title',
             'variation',
             'uppercategory',
         )

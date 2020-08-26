@@ -37,7 +37,7 @@ class ProducerProfileDetailSerializer(serializers.ModelSerializer):
             'province',
             'city',
             'company_name',
-            'phone_numbner',
+            'phone_number',
             'company_address',
             'office_address',
             'office_phone_num',
@@ -94,8 +94,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = (
             'id',
-            'first_name',
-            'first_name',
             'gender',
             'profile_picture',
             'province',
