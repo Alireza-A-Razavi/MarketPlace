@@ -1,5 +1,20 @@
 from rest_framework import serializers
-from .models import Category, CategoryVariation, Variation
+from .models import Category, CategoryVariation, Variation, MainCategory
+
+class MainCategorySerializer(serializers.ModelSerializer):
+    subs = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MainCategory
+        fields = (
+            'id',
+            'title',
+            'subs',
+        )
+
+    def get_subs(self, obj):
+        categories = Category.objects.filter(sub_category_of=obj)
+        return CategoryDetailSerializer(categories, many=True).data
 
 class CategorySerializer(serializers.ModelSerializer):
 
@@ -8,7 +23,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'title',
-            'upper_category',
+            'sub_category_of',
         )
 
 class VariationDetailSerializer(serializers.ModelSerializer):
@@ -75,7 +90,6 @@ class VariationSerializer(serializers.ModelSerializer):
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
     variation = serializers.SerializerMethodField()
-    uppercategory = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
@@ -83,13 +97,9 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'variation',
-            'uppercategory',
         )
 
     def get_variation(self, obj):
         return VariationSerializer(obj.variation_set.all(), many=True).data
-
-    def get_uppercategory(self, obj):
-        return CategorySerializer(obj.upper_category).data
 
 

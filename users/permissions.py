@@ -1,5 +1,5 @@
 from rest_framework import permissions
-
+from .models import ProducerProfile
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
@@ -12,8 +12,9 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
+        producer = ProducerProfile.objects.get(user=request.user)
         # Write permissions are only allowed to the owner of the snippet.
-        return obj.user == request.user
+        return obj.producer == producer
 
 
 class IsProducer(permissions.BasePermission):
@@ -22,5 +23,6 @@ class IsProducer(permissions.BasePermission):
 
         if request.method in permissions.SAFE_METHODS:
             return False
-        return request.user.role == "خریدار"
+
+        return obj.producer.user.role == "خریدار"
 

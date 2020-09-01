@@ -1,4 +1,5 @@
 from .models import ProducerProfile, Profile
+from django.shortcuts import render
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
@@ -15,7 +16,18 @@ from django.contrib.auth import login
 from rest_auth.registration import views
 
 from .permissions import IsOwnerOrReadOnly, IsProducer
-
+"""
+################################################################
+            ##          ############         ##
+           ## #         ##        ##         ##
+          ##   #        ##        ##         ##
+         ##     #       ##        ##         ##
+        ## # # # #      ############         ##
+       ##         #     ##                   ##
+      ##           #    ##                   ##
+     ##             #   ##                   ##
+##################################################################      
+"""
 
 class UserIDView(APIView):
     def get(self, request, *args, **kwargs):
@@ -58,4 +70,23 @@ class ProducerProfileCreateView(CreateAPIView):
     # permission_classes = [IsAuthenticated, IsOwnerOrReadOnly, IsProducer]
     serializer_class = ProducerProfileDetailSerializer
     queryset = ProducerProfile.objects.all()
+
+
+def sing_up(request):
+
+    return render(request, 'views/signup.html', {})
+
+"""
+END OF:
+################################################################
+            ##          ############         ##
+           ## #         ##        ##         ##
+          ##   #        ##        ##         ##
+         ##     #       ##        ##         ##
+        ## # # # #      ############         ##
+       ##         #     ##                   ##
+      ##           #    ##                   ##
+     ##             #   ##                   ##
+##################################################################      
+"""
 

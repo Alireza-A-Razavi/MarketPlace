@@ -5,28 +5,51 @@ from .models import Product, Rating, ProductComment
 from .serializers import ProductSerializer, ProductCommentSerializer, ProductDetailSerializer, RatingSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated,AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
 from django.db.models import Q
 
+from rest_framework.renderers import JSONRenderer
+
+from django.shortcuts import render
+import json
+
 
 from .models import Product, ProductComment
 from .serializers import ProductSerializer, ProductDetailSerializer, ProductCommentSerializer
+from .permissions import IsProducer, IsOwnerOrReadOnly
 
 from categories.models import Category
-
-# from users.models import ProducerProfile
-
+from users.serializers import UserSerializer
+from users.models import ProducerProfile
+"""
+################################################################
+            ##          ############         ##
+           ## #         ##        ##         ##
+          ##   #        ##        ##         ##
+         ##     #       ##        ##         ##
+        ## # # # #      ############         ##
+       ##         #     ##                   ##
+      ##           #    ##                   ##
+     ##             #   ##                   ##
+##################################################################      
+"""
 class ProductListView(ListAPIView):
-    # permission_classes = (AllowAny,)
+    permission_classes = (AllowAny,)
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
 class ProductDetailView(RetrieveAPIView):
-    # permission_classes = (AllowAny,)
+    permission_classes = (AllowAny,)
     serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+    lookup_field = 'slug'
+
+class ProductRUDView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, IsProducer    )
+    serializer_class = ProductDetailSerializer
     queryset = Product.objects.all()
     lookup_field = 'slug'
 
@@ -43,7 +66,7 @@ class ProducersProductListView(ListAPIView):
         return queryset
 
 class ProducerProductPublicListView(ListAPIView):
-    # permission_classes = (AllowAny, )
+    permission_classes = (AllowAny, )
     serializer_class = ProductSerializer
 
     def get_queryset(self):
@@ -52,14 +75,11 @@ class ProducerProductPublicListView(ListAPIView):
 
 
 class ProductCreationView(CreateAPIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, )
     serializer_class = ProductDetailSerializer
     queryset = Product.objects.all()
 
-#
-#
-# # class ProducerProductDetailView(RetrieveUpdateDestroyAPIView):
-# #     # permission_classes = (IsAuthenticated)
+
 
 
 @api_view(['GET'])
@@ -183,17 +203,43 @@ class VueFilterView(generics.ListAPIView):
     def get_queryset(self):
         qs = filter(self.request)
         return qs
+"""
+END OF:
+################################################################
+            ##          ############         ##
+           ## #         ##        ##         ##
+          ##   #        ##        ##         ##
+         ##     #       ##        ##         ##
+        ## # # # #      ############         ##
+       ##         #     ##                   ##
+      ##           #    ##                   ##
+     ##             #   ##                   ##
+##################################################################      
+"""
+
+def products_list_view(request):
+    queryset = Product.objects.all()
+    sered_data = ProductDetailSerializer(queryset, many=True).data
+    json_string = json.dumps(sered_data)
+    return render(request, 'views/products.html', {'products': json_string})
 
 
+def product_detail_view(request, slug):
+    product = Product.objects.get(slug=slug)
+    sered_data = ProductDetailSerializer(product).data
+    json_string = json.dumps(sered_data)
+    return render(request, 'views/product.html', {'product': json_string})
 
-
-
-
-
-
-
-
-
-
-
+def user_panel_view(request):
+    serialized_user = UserSerializer(request.user).data
+    producer = ProducerProfile.objects.get(user=request.user)
+    user_products = Product.objects.filter(producer=producer)
+    serialized_products = ProductDetailSerializer(user_products, many=True).data
+    json_products = json.dumps(serialized_products)
+    json_user_profile_data = json.dumps(serialized_user)
+    context = {
+        'user': json_user_profile_data,
+        'products': json_products,
+    }
+    return render(request, 'views/userPanel.html', context)
 

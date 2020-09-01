@@ -1,0 +1,48 @@
+{
+  "name": "vue-php",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "build": "webpack --watch",
+    "start": "nodemon app.js --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "file-loader": "^6.0.0",
+    "style-loader": "^1.1.3",
+    "vue-concise-slider": "^3.4.4",
+    "vue-loader": "^15.7.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@tinymce/tinymce-vue": "^3.2.2",
+    "axios": "^0.19.0",
+    "axios-retry": "^3.1.2",
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "google-maps": "^4.3.2",
+    "js-image-zoom": "^0.7.0",
+    "leaflet": "^1.6.0",
+    "leaflet-geosearch": "^3.0.6",
+    "nodemon": "^2.0.4",
+    "swiper": "^6.1.2",
+    "vue": "^2.6.10",
+    "vue-agile": "^1.1.3",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-router": "^3.4.3",
+    "vue-select": "^3.10.8",
+    "vue-slick-carousel": "^1.0.6",
+    "vue-star-rating": "^1.6.1",
+    "vuex": "^3.1.2"
+  }
+}

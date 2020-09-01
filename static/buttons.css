@@ -1,0 +1,29 @@
+.submit{
+	padding:10px 20px 10px 20px;
+	border-radius: 5px;
+	background: #0074d9;
+	border:0;
+	font-size:15pt;
+	color:white;
+	font-family: 'yekan';
+	cursor: pointer;
+}
+.submit:hover{
+	background:#145085
+}
+
+.uploadImage{
+	padding:10px 20px 10px 20px;
+	border-radius: 5px;
+	background-color: #00a65a;
+    border-color: #008d4c;
+	border:0;
+	font-size:15pt;
+	color:white;
+	font-family: 'yekan';
+	cursor: pointer;
+}
+
+.uploadImage:hover{
+	background-color: #0a9959;
+}

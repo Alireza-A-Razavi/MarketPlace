@@ -14,20 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('tinymce/', include('tinymce.urls')),
-    path('users-api/', include('users.urls')),
+    path('users-api/', include('users.api.urls')),
     path('auth/', obtain_auth_token),
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('categories-api/', include('categories.urls')),
-    path('products-api/', include('products.urls')),
-    path("posts-api/", include('blog.urls')),
+    path('categories-api/', include('categories.api.urls')),
+    path('products-api/', include('products.api.urls')),
+    path("posts-api/", include('blog.api.urls')),
 
+    path('users/', include('users.urls', namespace="users")),
+    path('categories/', include('categories.urls', namespace="categories")),
+    path('products/', include('products.urls', namespace="products")),
+    path('merchandise/', include('merchandise.urls', namespace="merchandise")),
+    path('blog/', include('blog.urls', namespace="blog")),
 
 ]

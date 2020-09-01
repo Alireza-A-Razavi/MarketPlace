@@ -26,28 +26,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'users.apps.UsersConfig',
     'categories.apps.CategoriesConfig',
     'blog.apps.BlogConfig',
     'merchandise.apps.MerchandiseConfig',
     'products.apps.ProductsConfig',
-    'corsheaders',
 
-    'tinymce',
-    'hitcount',
+
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'rest_auth.registration',
     'allauth.socialaccount',
+    'rest_auth.registration',
+
+    'tinymce',
+    'hitcount',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'website.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db2.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -142,24 +142,21 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'users.User'
 
 
-SITE_ID = 1
 
-STATIC_URL = '/static/'
 
-SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# CSRF_COOKIE_NAME = "csrftoken"
+CSRF_COOKIE_NAME = "csrftoken"
 
-# REST_AUTH_REGISTER_SERIALIZERS = {
-#     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
-# }
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
+}
 
-# REST_AUTH_SERIALIZERS = {
-#     'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
-#     'TOKEN_SERIALIZER': 'users.serializers.TokenSerializer'
-# }
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
+    'TOKEN_SERIALIZER': 'users.serializers.TokenSerializer'
+}
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
@@ -167,10 +164,46 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #     ),
 #     'DEFAULT_AUTHENTICATION_CLASSES': (
 #         'rest_framework.authentication.TokenAuthentication',
+#
 #     ),
 # }
+#
+# # REST_FRAMEWORK = {
+# #     'DEFAULT_AUTHENTICATION_CLASSES': [
+# #         'rest_framework.authentication.BasicAuthentication',
+# #         'rest_framework.authentication.SessionAuthentication',
+# #     ]
+# # }
+# #
+# #
+# #
+# # AUTHENTICATION_BACKENDS = [
+# #     # Needed to login by username in Django admin, regardless of `allauth`
+# #     'django.contrib.auth.backends.ModelBackend',
+# #
+# #     # `allauth` specific authentication methods, such as login by e-mail
+# #     'allauth.account.auth_backends.AuthenticationBackend',
+# # ]
 
 
+SITE_ID = 1
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# # Vue project location
+FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend/damdam')
 
+# # Vue assets directory (assetsDir)
+STATICFILES_DIRS = [
+    os.path.join(FRONTEND_DIR, 'js'),
+    os.path.join(FRONTEND_DIR, 'public'),
+    os.path.join(FRONTEND_DIR, 'views'),
+    os.path.join(FRONTEND_DIR),
+]
+
+# # Webpack output location containing Vue index.html file (outputDir)
+TEMPLATES[0]['DIRS'] += [
+    os.path.join(FRONTEND_DIR, 'views'),
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')

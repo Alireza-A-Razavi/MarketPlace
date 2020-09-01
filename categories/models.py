@@ -1,9 +1,14 @@
 from django.db import models
 
+class MainCategory(models.Model):
+    title = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.title
+
 class Category(models.Model):
     title = models.CharField(max_length=64)
-    upper_category = models.ForeignKey('self', on_delete=models.CASCADE,
-                                       null=True, blank=True, related_name="sub_category_of")
+    sub_category_of = models.ForeignKey(MainCategory, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
 
