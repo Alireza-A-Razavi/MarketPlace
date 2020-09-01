@@ -207,3 +207,6 @@ TEMPLATES[0]['DIRS'] += [
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
+
+
+ACCOUNT_FORMS = {'signup': 'users.forms.CustomSignUpForm'}

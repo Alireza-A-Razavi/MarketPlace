@@ -256,7 +256,7 @@
         },
         props:["products"],
         created(){
-            console.log(products)
+            console.log(JSON.parse(this.products))
         }
     }
 </script>

@@ -5,5 +5,5 @@ app_name = 'users'
 from . import views
 
 urlpatterns = [
-
+    path('profile/', views.complete_prod_profile, name="profile"),
 ]

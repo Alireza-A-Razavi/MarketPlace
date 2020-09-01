@@ -1,5 +1,6 @@
 from .models import ProducerProfile, Profile
-from django.shortcuts import render
+from .forms import ProducerProfileForm, CustomerProfileForm
+from django.shortcuts import render, redirect
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
@@ -90,3 +91,33 @@ END OF:
 ##################################################################      
 """
 
+def complete_prod_profile(request):
+    producer = ProducerProfile.objects.get(user=request.user)
+    form = ProducerProfileForm(instance=producer)
+    if request.method == "POST":
+        form = ProducerProfileForm(request.POST, instance=producer)
+        if form.is_valid():
+            form.save()
+            return redirect('/products/')
+
+    context = {
+        'form' : form
+    }
+    return render(request, 'complete_prod_prof.html', context)
+
+
+def customer_profile_completion(request):
+    try:
+        profile = Profile.objects.get(user=request.user)
+        form = CustomerProfileForm(instance=profile)
+        if request.method == "POST":
+            form = CustomerProfileForm(request.POST, instance=profile)
+            if form.is_valid():
+                form.save()
+                return redirect('users/profile')
+
+        context = { 'form' : form }
+        return render(request, 'complete_customer_profile.html', context)
+
+    except ObjectDoesNotExist:
+        return
