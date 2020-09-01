@@ -1,6 +1,12 @@
+import json
+
 from .models import ProducerProfile, Profile
 from .forms import ProducerProfileForm, CustomerProfileForm
 from django.shortcuts import render, redirect
+
+from django.http import JsonResponse
+
+from products.models import Product
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
@@ -97,12 +103,30 @@ def complete_prod_profile(request):
     if request.method == "POST":
         form = ProducerProfileForm(request.POST, instance=producer)
         if form.is_valid():
-            form.save()
-            return redirect('/products/')
+            gender = json.loads(request.POST['gender'])
+            profile_picture = json.loads(request.POST['profile_picture'])
+            province = json.loads(request.POST['province'])
+            city = json.loads(request.POST['city'])
+            company_name = json.loads(request.POST['company_name'])
+            phone_number = json.loads(request.POST['phone_number'])
+            company_address = json.loads(request.POST['company_address'])
+            office_address = json.loads(request.POST['office_address'])
+            office_phone_num = json.loads(request.POST['office_phone_num'])
+            introduce_yourself = json.loads(request.POST['introduce_yourself'])
+            description = json.loads(request.POST['description'])
+            web_site = json.loads(request.POST['web_site'])
+            categoty = json.loads(request.POST['categoty'])
+            department = json.loads(request.POST['department'])
+            job_title = json.loads(request.POST['job_title'])
+            postal_code = json.loads(request.POST['postal_code'])
+            alternative_phone = json.loads(request.POST['alternative_phone'])
+            fax_number = json.loads(request.POST['fax_number'])
+            business_type = json.loads(request.POST['business_type'])
 
-    context = {
-        'form' : form
-    }
+
+
+            return redirect('/products/')
+    context = { 'form' : form }
     return render(request, 'complete_prod_prof.html', context)
 
 
@@ -115,9 +139,10 @@ def customer_profile_completion(request):
             if form.is_valid():
                 form.save()
                 return redirect('users/profile')
-
-        context = { 'form' : form }
+        context = {
+            'form': form,
+        }
         return render(request, 'complete_customer_profile.html', context)
 
     except ObjectDoesNotExist:
-        return
+        return Http404("not found")

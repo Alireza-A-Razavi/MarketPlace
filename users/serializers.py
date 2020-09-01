@@ -6,7 +6,6 @@ from rest_auth.registration.serializers import RegisterSerializer
 from categories.serializers import CategorySerializer
 
 
-
 class ProducerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
